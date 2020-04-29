@@ -5,7 +5,8 @@ import math
 class Individuo(object):
 
     def __init__(self, tamanhoIndividuo):
-        self.fitness = None        
+        self.fitness = None    
+        self.valorDecimal = None    
         self.tamanhoIndividuo = tamanhoIndividuo
         self.materialGenetico = []
         for i in range(tamanhoIndividuo):
@@ -24,12 +25,17 @@ class Individuo(object):
 
     def calcularFitness(self):
         if(self.fitness == None):
-            materialGeneticoStr = "".join(self.materialGenetico)
-            materialGeneticoDecimal = int(materialGeneticoStr, 2)
-            self.fitness = (3 * materialGeneticoDecimal) + \
-                math.pow(materialGeneticoDecimal, 2)
+            #Função x² + 3x | b² - 4ac = 9 - 4.1.0 = 9
+            self.fitness = math.pow(self.toDecimal(), 2) + (3 * self.toDecimal())
 
         return self.fitness
+
+    def toDecimal(self):
+        if(self.valorDecimal == None):
+            materialGeneticoStr = "".join(self.materialGenetico)
+            self.valorDecimal = int(materialGeneticoStr, 2)        
+
+        return self.valorDecimal
 
     def fazerMutacao(self):
         print("Indivíduo: " + str(self.materialGenetico))
