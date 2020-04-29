@@ -29,7 +29,7 @@ class Populacao(object):
     def mutacao(self):
         #Sorteia um indivíduo da população
         posicaoIndividuo = random.randint(0, len(self.populacao)-1)
-        print("Posicao Indiviuo:" + str(posicaoIndividuo))
+        print("Posicao Indiviuo Mutado:" + str(posicaoIndividuo))
         self.populacao[posicaoIndividuo].fazerMutacao()
 
     def reproducao(self, taxaReproducao):
@@ -61,6 +61,11 @@ class Populacao(object):
     
         self.populacao[indiceMenorFitness] = descendente
 
+    def exibirDecimal(self, materialGenetico):
+        materialGeneticoStr = "".join(materialGenetico)
+        materialGeneticoDecimal = int(materialGeneticoStr, 2)
+        return materialGeneticoDecimal
+
     def exibirMaterialGenetico(self):
         for i in range(self.tamanhoPopulacao):
-            print(self.populacao[i].materialGenetico)
+            print(self.exibirDecimal(self.populacao[i].materialGenetico))
