@@ -9,6 +9,7 @@ class Populacao(object):
         self.contadorGeracao = 1
         self.geracoes = [1]
         self.fitnessMedioDasGeracoes = []
+        self.melhorIndividuo = None
         self.tamanhoPopulacao = tamanhoPopulacao
         self.tamanhoIndividuo = tamanhoIndividuo
 
@@ -17,7 +18,9 @@ class Populacao(object):
             individuo = Individuo(self.tamanhoIndividuo)
             self.populacao.append(individuo)
             print(individuo.materialGenetico)
+
         self.fitnessMedioDasGeracoes.append(self.calcularFitnessMedio())
+        self.selecao()
     
     def calcularFitnessMedio(self):
         fitnessTotal = 0
@@ -50,7 +53,8 @@ class Populacao(object):
         self.exibirMaterialGenetico()
 
     def selecao(self):
-        self.populacao = sorted(self.populacao, key=lambda Individuo: Individuo.fitness)
+        self.populacao = sorted(self.populacao, key=lambda Individuo: Individuo.fitness) #Ordena do pior para o melhor indivíduo
+        self.melhorIndividuo = self.populacao[len(self.populacao)-1] #Pega o melhor indivíduo da geração
 
     def adicionarDescendente(self, descendente):
         menorFitness = sys.float_info.max
