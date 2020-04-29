@@ -10,9 +10,10 @@ TAMANHO_POPULACAO = 100
 populacao = Populacao(TAMANHO_POPULACAO, TAMANHO_INDIVIDUO)
 populacao.inicializar()
 
-for i in range(100):
+# while(populacao.melhorIndividuo.toDecimal() != -2.25):
+for i in range(5):
   populacao.calcularFitnessMedio()
   populacao.selecao()
-  populacao.reproducao(70)
+  populacao.reproducao(50)
   populacao.mutacao()
   grafico.plotar(populacao)
