@@ -17,7 +17,7 @@ class Populacao(object):
         for i in range(self.tamanhoPopulacao):
             individuo = Individuo(self.tamanhoIndividuo)
             self.populacao.append(individuo)
-            print(individuo.toDecimal())
+            print(individuo.valorDecimal)
 
         self.fitnessMedioDasGeracoes.append(self.calcularFitnessMedio())
         self.selecao()
@@ -50,7 +50,7 @@ class Populacao(object):
         self.geracoes.append(self.contadorGeracao)
         self.fitnessMedioDasGeracoes.append(self.calcularFitnessMedio())
 
-        self.exibirMaterialGenetico()
+        #self.exibirMaterialGenetico()
 
     def selecao(self):
         self.populacao = sorted(self.populacao, key=lambda Individuo: Individuo.fitness) #Ordena do pior para o melhor indivíduo
