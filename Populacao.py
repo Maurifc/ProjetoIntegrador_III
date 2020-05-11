@@ -39,8 +39,7 @@ class Populacao(object):
         inicio = self.tamanhoPopulacao - 1
         fim = ((self.tamanhoPopulacao) - 1) - int(self.tamanhoPopulacao * (taxaReproducao/100))
         for i in range(inicio, fim, -2):
-            novoIndividuo = Individuo(self.tamanhoIndividuo)
-            novoIndividuo.materialGenetico = self.populacao[i].reproducao(self.populacao[i-1])
+            novoIndividuo = self.populacao[i].reproducao(self.populacao[i-1])
             self.populacao.append(novoIndividuo)
             self.tamanhoPopulacao = self.tamanhoPopulacao + 1
 
