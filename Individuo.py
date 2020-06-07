@@ -1,7 +1,6 @@
 import random
 import math
 
-
 class Individuo(object):
 
     def __init__(self, tamanhoIndividuo, materialGenetico=None ):
@@ -22,7 +21,7 @@ class Individuo(object):
         self.calcularFitness()
 
     def reproducao(self, indiviuo2):
-        posCruzamento = int(self.tamanhoIndividuo/2)
+        posCruzamento = random.randint(0, self.tamanhoIndividuo)
         mGeneticoNovoIndividuo = self.materialGenetico[0:posCruzamento]
 
         for i in range(posCruzamento, self.tamanhoIndividuo):
@@ -52,9 +51,8 @@ class Individuo(object):
 
     def calcularFitness(self):
         if(self.fitness == None):
-            # Função x² + 3x | b² - 4ac = 9 - 4.1.0 = 9
-            self.fitness = math.pow(self.valorDecimal, 2) + \
-                (3 * self.valorDecimal)
+            # Função 5x² + 50x - 20 = 0    mínimo   ->    -145
+            self.fitness = 5*math.pow(self.valorDecimal , 2) + 50*self.valorDecimal - 20
 
         return self.fitness
 
@@ -71,16 +69,16 @@ class Individuo(object):
         return self.valorDecimal
 
     def fazerMutacao(self):
-        print("Indivíduo: " + str(self.materialGenetico))
+        #print("Indivíduo: " + str(self.materialGenetico))
 
         # Sorteia um gene do indivíduo e inverte seu valor
         posicaoGene = random.randint(0, self.tamanhoIndividuo-1)
         gene = self.materialGenetico[posicaoGene]
-        print("Gene sorteado: " + str(gene))
+        #print("Gene sorteado: " + str(gene))
 
         # Altera o gene (invertendo seu valor) e o coloca novamente no indiviuo
         novoGene = '0' if gene == '1' else '1'
         self.materialGenetico[posicaoGene] = novoGene
         self.valorDecimal = self.toDecimal()
-        print("Indivíduo mutado: " + str(self.materialGenetico))
+        #print("Indivíduo mutado: " + str(self.materialGenetico))
 

@@ -1,6 +1,8 @@
 from Individuo import Individuo
 import random
 import sys
+import math
+
 
 class Populacao(object):
 
@@ -8,52 +10,69 @@ class Populacao(object):
         self.populacao = []
         self.contadorGeracao = 1
         self.geracoes = [1]
-        self.fitnessMedioDasGeracoes = []
-        self.melhorIndividuo = None
+        self.fitnessMedioDasGeracoes = [0]
+
+        self.arrMelhoresIndividuoes = []
+
+        self.melhorIndividuo = Individuo(tamanhoIndividuo)
+        self.melhorIndividuo.fitness = None
+
         self.tamanhoPopulacao = tamanhoPopulacao
         self.tamanhoIndividuo = tamanhoIndividuo
 
     def inicializar(self):
         for i in range(self.tamanhoPopulacao):
             individuo = Individuo(self.tamanhoIndividuo)
-            self.populacao.append(individuo)
-            print(individuo.valorDecimal)
 
-        self.fitnessMedioDasGeracoes.append(self.calcularFitnessMedio())
-        self.selecao()
-    
-    def calcularFitnessMedio(self):
+            # insere no array de melhores individuos caso o indivio seja melhor que o melhor atual
+            if self.melhorIndividuo.fitness == None or individuo.fitness < self.melhorIndividuo.fitness:
+                self.melhorIndividuo = individuo
+
+            self.populacao.append(individuo)
+
+    def calcularFitness(self):
         fitnessTotal = 0
         for i in range(self.tamanhoPopulacao):
             fitnessTotal += self.populacao[i].calcularFitness()
-        
-        return fitnessTotal / self.tamanhoPopulacao
-    
+
+        fitnessMedio = fitnessTotal / self.tamanhoPopulacao
+
+        self.fitnessMedioDasGeracoes.append(fitnessMedio)
+
+        return fitnessMedio
+
     def mutacao(self):
-        #Sorteia um indivíduo da população
+        # Sorteia um indivíduo da população
         posicaoIndividuo = random.randint(0, len(self.populacao)-1)
-        print("Posicao Indiviuo Mutado:" + str(posicaoIndividuo))
+        # print("Posicao Indiviuo Mutado:" + str(posicaoIndividuo))
         self.populacao[posicaoIndividuo].fazerMutacao()
 
-    def reproducao(self, taxaReproducao):
-        inicio = self.tamanhoPopulacao - 1
-        fim = ((self.tamanhoPopulacao) - 1) - int(self.tamanhoPopulacao * (taxaReproducao/100))
-        for i in range(inicio, fim, -2):
-            novoIndividuo = self.populacao[i].reproducao(self.populacao[i-1])
-            self.populacao.append(novoIndividuo)
-            self.tamanhoPopulacao = self.tamanhoPopulacao + 1
+    def reproducao(self):
+        i = 0
+        i2 = 0
+        while(i == i2):
+            i = random.randint(0, self.tamanhoPopulacao - 1)
+            i2 = random.randint(0, self.tamanhoPopulacao - 1)
 
-        #Incrementa o contador de geracoes
-        self.contadorGeracao += 1
-        #Coloca mais uma geracao no array de geracoes e seu respectivo fitness médio no array 'fitness'
-        self.geracoes.append(self.contadorGeracao)
-        self.fitnessMedioDasGeracoes.append(self.calcularFitnessMedio())
+        novoIndividuo = self.populacao[i].reproducao(self.populacao[i2])
 
-        #self.exibirMaterialGenetico()
+        # insere no array de melhores individuos caso o indivio seja melhor que o melhor atual
+        if self.melhorIndividuo.fitness == None or novoIndividuo.fitness < self.melhorIndividuo.fitness:
+            self.melhorIndividuo = novoIndividuo
+
+        self.populacao.append(novoIndividuo)
+        self.tamanhoPopulacao += 1
 
     def selecao(self):
-        self.populacao = sorted(self.populacao, key=lambda Individuo: Individuo.fitness) #Ordena do pior para o melhor indivíduo
-        self.melhorIndividuo = self.populacao[len(self.populacao)-1] #Pega o melhor indivíduo da geração
+        fitnessMaximo = sum([c.fitness for c in self.populacao])
+        fitnessSelecionado = random.uniform(0, fitnessMaximo)
+        fitnessAtual = 0
+        for individuo in self.populacao:
+            fitnessAtual += individuo.fitness
+            if fitnessAtual > fitnessSelecionado:
+                self.populacao.remove(individuo)
+                self.tamanhoPopulacao -= 1;
+                return individuo
 
     def adicionarDescendente(self, descendente):
         menorFitness = sys.float_info.max
