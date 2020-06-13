@@ -51,8 +51,8 @@ class Individuo(object):
 
     def calcularFitness(self):
         if(self.fitness == None):
-            # Função 5x² + 50x - 20 = 0    mínimo   ->    -145
-            self.fitness = 5*math.pow(self.valorDecimal , 2) + 50*self.valorDecimal - 20
+            # Função 130x² + 50x - 10 = 0   mínimo   ->    - 14,80
+            self.fitness = 130*math.pow(self.valorDecimal , 2) + 50*self.valorDecimal - 10
 
         return self.fitness
 

@@ -15,19 +15,20 @@ plt.ylabel('Fitness')
 plt.colormaps
 
 # inicializacao da populacao
-populacao = Populacao(TAMANHO_POPULACAO, TAMANHO_INDIVIDUO)
+populacao = Populacao(TAMANHO_POPULACAO, TAMANHO_INDIVIDUO, True)
 populacao.inicializar()
 populacao.arrMelhoresIndividuoes.append(populacao.melhorIndividuo.fitness)
 
-# while(populacao.melhorIndividuo.toDecimal() != -2.25):
-while(populacao.contadorGeracao < 300):
+while(populacao.contadorGeracao < 400):
+
+  # calculo do fitness
   populacao.calcularFitness()
 
-  for i in range(20):
-    populacao.selecao()
+  # selecao
+  populacao.selecao(0.7) # a porcentagem se refere a quantidade de individuos que sobreviverao à selecao
 
-  for i in range(30):
-    populacao.reproducao()
+  # reproducao
+  populacao.reproducao(0.46) # a porcentagem se refere a quantidade de individuos que farao a reproducao
 
   populacao.arrMelhoresIndividuoes.append(populacao.melhorIndividuo.fitness)
   populacao.mutacao()
@@ -38,6 +39,8 @@ while(populacao.contadorGeracao < 300):
   print('Geração -> ' + str(populacao.contadorGeracao))
   print('melhor indivíduo => ' + str(populacao.melhorIndividuo.valorDecimal))
   print('melhor indivíduo fitness => ' + str(populacao.melhorIndividuo.fitness))
+  print('tamanho populacao => ' + str(len(populacao.populacao)))
+  print('-----------------------------------------------------------------------')
 
 
 #Exibição do gráfico
