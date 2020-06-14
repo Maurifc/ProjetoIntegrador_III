@@ -3,7 +3,8 @@ import math
 
 class Individuo(object):
 
-    def __init__(self, tamanhoIndividuo, materialGenetico=None ):
+    def __init__(self, tamanhoIndividuo, f,materialGenetico=None):
+        self.f = f
         self.fitness = None
         self.valorDecimal = None
         self.tamanhoIndividuo = tamanhoIndividuo
@@ -30,7 +31,7 @@ class Individuo(object):
         if(len(mGeneticoNovoIndividuo) < self.tamanhoIndividuo):
             raise Exception("erro na reproducao")
 
-        return Individuo(self.tamanhoIndividuo, mGeneticoNovoIndividuo)
+        return Individuo(self.tamanhoIndividuo, self.f,mGeneticoNovoIndividuo)
 
     #Converte um número decimal para um array binário
     def intToBin(self, inteiro):
@@ -51,8 +52,7 @@ class Individuo(object):
 
     def calcularFitness(self):
         if(self.fitness == None):
-            # Função 130x² + 50x - 10 = 0   mínimo   ->    - 14,80
-            self.fitness = 130*math.pow(self.valorDecimal , 2) + 50*self.valorDecimal - 10
+            self.fitness = self.f(self.valorDecimal)
 
         return self.fitness
 

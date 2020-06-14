@@ -8,18 +8,22 @@ import matplotlib.pyplot as plt
 TAMANHO_INDIVIDUO = 8
 TAMANHO_POPULACAO = 100
 
+def f(x):
+  #      5x² + 10x - 10 = 0   -> mínimo = -15
+  return 5*x**2 + 10*x - 10
+
 # inicializacao do grafico
 plt.title('Gráfico do Fitness das gerações')
 plt.xlabel('Geração')
 plt.ylabel('Fitness')
 plt.colormaps
-
-# inicializacao da populacao
-populacao = Populacao(TAMANHO_POPULACAO, TAMANHO_INDIVIDUO, True)
+                                                                               
+# inicializacao da populacao parametros: (TAMANHO_POPULACAO, TAMANHO_INDIVIDUO, POSSUI_MINIMO, FUNCAO_MATEMATICA)
+populacao = Populacao(TAMANHO_POPULACAO, TAMANHO_INDIVIDUO, True, f)
 populacao.inicializar()
 populacao.arrMelhoresIndividuoes.append(populacao.melhorIndividuo.fitness)
 
-while(populacao.contadorGeracao < 400):
+while(populacao.contadorGeracao < 300):
 
   # calculo do fitness
   populacao.calcularFitness()

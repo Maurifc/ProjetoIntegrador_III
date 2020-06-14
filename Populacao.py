@@ -6,8 +6,9 @@ import math
 
 class Populacao(object):
 
-    def __init__(self, tamanhoPopulacaoInicial, tamanhoIndividuo, isMinimo):
-        self.isMinimo = isMinimo
+    def __init__(self, tamanhoPopulacaoInicial, tamanhoIndividuo, possuiMinimo, f):
+        self.possuiMinimo = possuiMinimo
+        self.f = f
 
         self.populacao = []
         self.contadorGeracao = 1
@@ -16,7 +17,7 @@ class Populacao(object):
 
         self.arrMelhoresIndividuoes = []
 
-        self.melhorIndividuo = Individuo(tamanhoIndividuo)
+        self.melhorIndividuo = Individuo(tamanhoIndividuo, f)
         self.melhorIndividuo.fitness = None
 
         self.tamanhoPopulacaoInicial = tamanhoPopulacaoInicial
@@ -24,10 +25,10 @@ class Populacao(object):
 
     def inicializar(self):
         for i in range(self.tamanhoPopulacaoInicial):
-            individuo = Individuo(self.tamanhoIndividuo)
+            individuo = Individuo(self.tamanhoIndividuo, self.f)
 
             # insere no array de melhores individuos caso o indivio seja melhor que o melhor atual
-            if self.isMinimo:
+            if self.possuiMinimo:
                 if self.melhorIndividuo.fitness == None or individuo.fitness < self.melhorIndividuo.fitness:
                     self.melhorIndividuo = individuo
             else:
@@ -69,7 +70,7 @@ class Populacao(object):
             # reproducao
             novoIndividuo = ind1.reproducao(ind2)
 
-            if self.isMinimo:
+            if self.possuiMinimo:
                 if self.melhorIndividuo.fitness == None or novoIndividuo.fitness < self.melhorIndividuo.fitness:
                     self.melhorIndividuo = novoIndividuo
             else:
@@ -107,7 +108,7 @@ class Populacao(object):
             fitnessInd3 = self.populacao[ind3].fitness
 
             # selecao do mais apto no toneio
-            if self.isMinimo:
+            if self.possuiMinimo:
                 if fitnessInd1 < fitnessInd2 and fitnessInd1 < fitnessInd3:
                     selecionados.append(self.populacao[ind1])
                 elif fitnessInd2 < fitnessInd1 and fitnessInd2 < fitnessInd3:
