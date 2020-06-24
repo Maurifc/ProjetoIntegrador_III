@@ -17,14 +17,14 @@ class Individuo(object):
                 raise Exception("Tamanho do material genético informado é inferior ao tamanho do indivíuo estabelecido.")
 
             self.materialGenetico = materialGenetico
-            self.valorDecimal = self.toDecimal()
+            self.valorDecimal = self.binToDec()
         
         self.calcularFitness()
 
     def reproducao(self, indiviuo2):
         posCruzamento = random.randint(0, self.tamanhoIndividuo)
         mGeneticoNovoIndividuo = self.materialGenetico[0:posCruzamento]
-
+        
         for i in range(posCruzamento, self.tamanhoIndividuo):
                 mGeneticoNovoIndividuo.append(indiviuo2.materialGenetico[i])
 
@@ -49,14 +49,8 @@ class Individuo(object):
             
         return list(strBinarioFormatado)
 
-
-    def calcularFitness(self):
-        if(self.fitness == None):
-            self.fitness = self.f(self.valorDecimal)
-
-        return self.fitness
-
-    def toDecimal(self):
+    #convert um array binário para um número decimal
+    def binToDec(self):
         if(self.materialGenetico[0] == '1'):
             decimal = "-0b"
         else:
@@ -68,9 +62,13 @@ class Individuo(object):
 
         return self.valorDecimal
 
-    def fazerMutacao(self):
-        #print("Indivíduo: " + str(self.materialGenetico))
+    def calcularFitness(self):
+        self.fitness = self.f(self.valorDecimal)
 
+        return self.fitness
+
+    def fazerMutacao(self):
+        
         # Sorteia um gene do indivíduo e inverte seu valor
         posicaoGene = random.randint(0, self.tamanhoIndividuo-1)
         gene = self.materialGenetico[posicaoGene]
@@ -79,6 +77,7 @@ class Individuo(object):
         # Altera o gene (invertendo seu valor) e o coloca novamente no indiviuo
         novoGene = '0' if gene == '1' else '1'
         self.materialGenetico[posicaoGene] = novoGene
-        self.valorDecimal = self.toDecimal()
-        #print("Indivíduo mutado: " + str(self.materialGenetico))
+        self.valorDecimal = self.binToDec()
+        
+        print("Indivíduo mutado: " + str(self.materialGenetico))
 

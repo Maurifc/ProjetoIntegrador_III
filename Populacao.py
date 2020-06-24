@@ -40,7 +40,7 @@ class Populacao(object):
     def calcularFitness(self):
         fitnessTotal = 0
         for i in range(len(self.populacao)):
-            fitnessTotal += self.populacao[i].calcularFitness()
+            fitnessTotal += self.populacao[i].fitness
 
         fitnessMedio = fitnessTotal / len(self.populacao)
 
@@ -48,11 +48,14 @@ class Populacao(object):
 
         return fitnessMedio
 
-    def mutacao(self):
-        # Sorteia um indivíduo da população
-        posicaoIndividuo = random.randint(0, len(self.populacao)-1)
-        # print("Posicao Indiviuo Mutado:" + str(posicaoIndividuo))
-        self.populacao[posicaoIndividuo].fazerMutacao()
+    def mutacao(self, percent):
+        mutar = random.randint(1,100)
+
+        if mutar > (100 - percent*100):
+            # Sorteia um indivíduo da população
+            posicaoIndividuo = random.randint(0, len(self.populacao)-1)
+            # print("Posicao Indiviuo Mutado:" + str(posicaoIndividuo))
+            self.populacao[posicaoIndividuo].fazerMutacao()
 
     def reproducao(self, percent):
         # contador de individuos que serao reproduzidos
